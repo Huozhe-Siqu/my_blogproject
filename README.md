@@ -1,0 +1,2 @@
+# my_blogproject
+此项目是基于追梦人物的Python Django教程，目的是学习django开发和复习web知识，以及加深对Python的理解
