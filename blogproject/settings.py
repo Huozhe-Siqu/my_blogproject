@@ -25,7 +25,7 @@ SECRET_KEY = '0bx=!1-f&4u@d3l&d)n-694vkkmgpq)!6^ey-i^v4+pm%%&dnu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','.huozhesiqu.com']
 
 
 # Application definition
@@ -126,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# 加入下面的配置
+STATIC_ROOT = os.path.join(BASE_DIR,"static")
