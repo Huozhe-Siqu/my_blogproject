@@ -64,6 +64,9 @@ class Post(models.Model):
     # 我们规定一篇文章只能有一个作者，而一个作何可能会有多篇文章，因此这是一对多的关系
     author = models.ForeignKey(User,verbose_name="作者",on_delete=models.CASCADE)
 
+    # 新增view字段，记录阅读量
+    views = models.PositiveIntegerField(default=0,editable=False)
+
     class Meta:
         verbose_name = "文章"
         verbose_name_plural = verbose_name
@@ -93,3 +96,9 @@ class Post(models.Model):
     # 记得从django.urls中导入reverse函数
     def get_absolute_url(self):
         return reverse("blog:detail",kwargs={"pk":self.pk})
+
+    # 自定义increase-views方法
+    # 当用户访问文章，即views + 1
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=["views"])
