@@ -114,7 +114,7 @@
                         <div class="no-post">暂时还没有发布新的文章</div>
                     {% endfor %}
 
-                        <div class="pagination">
+                        <!-- <div class="pagination">
                             <ul>
                                 <li><a href="">1</a></li>
                                 <li><a href="">...</a></li>
@@ -126,7 +126,21 @@
                                 <li><a href="">...</a></li>
                                 <li><a href="">11</a></li>
                             </ul>
+                        </div> -->
+                        {% if is_paginated %}
+                        <div class="pagination-simple">
+                            <!-- 如果当前页还有上一页，显示一个上一页的按钮 -->
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.pervious_page_number }}">上一页</a>
+                            {% endif %}
+                            <!-- 显示当前页面的信息 -->
+                            <span class="current">第 {{ page_obj.number }}页 / 共 {{ paginator.num_pages }} 页</span>
+                            <!-- 如果当前页还有下一页显示下一页的按钮 -->
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+                            {% endif %}
                         </div>
+                        {% endif %}
                 {% endblock main %}
             </main>
             <aside class="col-md-4">

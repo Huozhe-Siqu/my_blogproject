@@ -26,6 +26,8 @@ class IndexView(ListView):
     model = Post
     template_name = "blog/index.html"
     context_object_name = "post_list"
+    # 开启分页功能
+    paginate_by = 10
 
 # def detail(request,pk):
 #     post = get_object_or_404(Post,pk=pk)
@@ -100,6 +102,7 @@ class CategoryView(ListView):
     model = Post
     template_name = "blog/index.html"
     context_object_name = "post_list"
+    paginate_by = 10
 
     # 复写
     def get_queryset(self):
