@@ -11,4 +11,5 @@ urlpatterns = [
     # path("categories/<int:pk>/",views.category,name="category"),
     path("categories/<int:pk>/",views.CategoryView.as_view(),name="category"),
     path("tags/<int:pk>/",views.tag,name="tag"),
+    path("search/",views.search,name="search"),
 ]
