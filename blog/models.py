@@ -1,9 +1,14 @@
+from typing import ContextManager
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 import markdown
 from django.utils.html import strip_tags
+import re
+from markdown.extensions.toc import TocExtension
+from django.utils.text import slugify
+from django.utils.functional import cached_property
 
 # Create your models here.
 class Category(models.Model):
@@ -102,3 +107,33 @@ class Post(models.Model):
     def increase_views(self):
         self.views += 1
         self.save(update_fields=["views"])
+
+    @property
+    def toc(self):
+        return self.rich_content.get("toc","")
+    
+    @property
+    def body_html(self):
+        return self.rich_content.get("content","")
+    
+    @cached_property
+    def rich_content(self):
+        return generate_rich_content(self.body)
+
+
+def generate_rich_content(value):
+    md = markdown.Markdown(extensions=[
+                                "markdown.extensions.extra",
+                                "markdown.extensions.codehilite",
+                                # "markdown.extensions.toc",
+                                # "markdown.extensions.fenced_code",
+                                TocExtension(slugify=slugify),
+                            ]
+    )
+    content = md.convert(value)
+
+    # 空目录的处理
+    m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+    toc = m.group(1) if m is not None else ''
+
+    return {"content": content,"toc": toc}

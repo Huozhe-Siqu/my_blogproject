@@ -69,24 +69,24 @@ class PostDetailView(DetailView):
         # 视图必须返回一个HttpResponse对象
         return response
 
-    def get_object(self,queryset=None):
-        # 覆写get_object方法的目的是因为需要对post的body值进行渲染
-        post = super().get_object(queryset=None)
-        md = markdown.Markdown(extensions=[
-                                    "markdown.extensions.extra",
-                                    "markdown.extensions.codehilite",
-                                    # "markdown.extensions.toc",
-                                    # "markdown.extensions.fenced_code",
-                                    TocExtension(slugify=slugify),
-                                ]
-        )
-        post.body = md.convert(post.body)
+    # def get_object(self,queryset=None):
+    #     # 覆写get_object方法的目的是因为需要对post的body值进行渲染
+    #     post = super().get_object(queryset=None)
+    #     md = markdown.Markdown(extensions=[
+    #                                 "markdown.extensions.extra",
+    #                                 "markdown.extensions.codehilite",
+    #                                 # "markdown.extensions.toc",
+    #                                 # "markdown.extensions.fenced_code",
+    #                                 TocExtension(slugify=slugify),
+    #                             ]
+    #     )
+    #     post.body = md.convert(post.body)
 
-        # 空目录的处理
-        m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
-        post.toc = m.group(1) if m is not None else ''
+    #     # 空目录的处理
+    #     m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+    #     post.toc = m.group(1) if m is not None else ''
 
-        return post
+    #     return post
 
 def archive(request,year,month):
     post_list = Post.objects.filter(created_time__year=year,
