@@ -9,6 +9,7 @@ markdown = "*"
 gunicorn = "*"
 
 [dev-packages]
+fabric = "*"
 
 [requires]
 python_version = "3.8"
